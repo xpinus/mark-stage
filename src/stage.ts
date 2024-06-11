@@ -1,13 +1,15 @@
 import Pane from './annotations/pane';
 import { coords, setCoords } from './util/coordinate';
+import ProxyMouseEvent from './util/event';
 
 import type Annotation from './annotations/annotation';
 
 class Stage {
   pane: Pane;
-  annotations: Annotation[] = [];
+  annotations: Map<string, Annotation> = new Map();
   target: HTMLElement;
   container: HTMLElement;
+  event: ProxyMouseEvent;
 
   constructor(target: HTMLElement, container: HTMLElement = document.body) {
     this.target = target;
@@ -19,36 +21,37 @@ class Stage {
     this.pane = new Pane();
     this.pane.mount(this.container);
 
+    this.event = new ProxyMouseEvent(this);
+
     this.render();
   }
 
   render() {
     setCoords(this.pane.$pane as unknown as HTMLElement, coords(this.target, this.container));
-    for (const annot of this.annotations) {
+
+    for (const annot of this.annotations.values()) {
       annot.render();
     }
   }
 
   add(annot: Annotation) {
+    this.annotations.set(annot.uuid, annot);
     annot.bind(this.pane);
-    this.annotations.push(annot);
-
     annot.render();
 
     return annot;
   }
 
-  remove(annot: Annotation) {
-    const idx = this.annotations.indexOf(annot);
-    if (idx === -1) {
-      return;
-    }
+  remove(uuid: string) {
+    if (!this.annotations.has(uuid)) return;
+
+    const annot = this.annotations.get(uuid)!;
 
     const el = annot.unbind();
     if (el) {
       this.pane.$pane.removeChild(el);
     }
-    this.annotations.splice(idx, 1);
+    this.annotations.delete(uuid);
   }
 }
 

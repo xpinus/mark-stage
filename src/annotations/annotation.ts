@@ -1,19 +1,22 @@
+import { generateUUID } from '../util/uuid';
 import type Pane from './pane';
 
-type AnnotationOptions = {
+export type AnnotationOptions = {
   range: Range;
-  className: string;
+  classList: string[];
 };
 
 abstract class Annotation {
-  wrap: SVGElement | null = null;
+  uuid: string;
+  $group: SVGElement | null = null;
   pane: Pane | null = null;
   range: Range;
-  className: string;
+  classList: string[];
 
-  constructor({ range, className = '' }: AnnotationOptions) {
+  constructor({ range, classList = [] }: AnnotationOptions) {
+    this.uuid = generateUUID();
     this.range = range;
-    this.className = className;
+    this.classList = classList;
   }
 
   abstract render(): void;
@@ -22,13 +25,14 @@ abstract class Annotation {
     this.pane = pane;
 
     const g = this.pane.group();
+    g.setAttribute('data-uuid', this.uuid);
     this.pane.$pane.appendChild(g);
-    this.wrap = g;
+    this.$group = g;
   }
 
   unbind() {
-    const el = this.wrap;
-    this.wrap = null;
+    const el = this.$group;
+    this.$group = null;
     return el;
   }
 
@@ -42,6 +46,15 @@ abstract class Annotation {
     const stringRects = rects.map((r) => JSON.stringify(r));
     const setRects = new Set(stringRects);
     return Array.from(setRects).map((sr) => JSON.parse(sr));
+  }
+
+  // Empty element
+  empty() {
+    if (!this.$group) return;
+
+    while (this.$group.firstChild) {
+      this.$group.removeChild(this.$group.firstChild);
+    }
   }
 }
 

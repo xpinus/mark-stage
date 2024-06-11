@@ -2,10 +2,11 @@
   "name": "annotate",
   "version": "0.1.0",
   "description": "js library for add annotations(highlight,underline,etc.) on web page",
+  "type": "module",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "browser": "dist/index.umd.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist"
   ],

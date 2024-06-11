@@ -1,3 +1,6 @@
+/**
+ * @description A pane with all the annotations rendered on it
+ */
 export default class Pane {
   $pane: SVGSVGElement;
 
@@ -11,6 +14,11 @@ export default class Pane {
   }
 
   mount(container: HTMLElement) {
+    const containerPosition = window.getComputedStyle(container, null).position;
+    if (containerPosition === 'static' || !containerPosition) {
+      container.style.position = 'relative';
+    }
+
     container.appendChild(this.$pane);
   }
 
