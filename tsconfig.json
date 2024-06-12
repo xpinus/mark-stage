@@ -2,7 +2,7 @@
   "compilerOptions": {
     /* Language and Environment */
     "target": "es2016",
-    "lib": ["DOM"],
+    "lib": ["dom"],
 
     /* Modules */
     "module": "esnext",

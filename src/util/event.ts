@@ -1,5 +1,5 @@
 import type Stage from '../stage';
-import type Annotation from '../annotations/annotation';
+import type Annotation from '../marks/mark';
 
 export enum PROXY_EVENTS {
   click = 'click',

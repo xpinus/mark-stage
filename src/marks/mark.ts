@@ -1,19 +1,19 @@
 import { generateUUID } from '../util/uuid';
 import type Pane from './pane';
 
-export type AnnotationOptions = {
+export type MarkOptions = {
   range: Range;
   classList: string[];
 };
 
-abstract class Annotation {
+abstract class Mark {
   uuid: string;
   $group: SVGElement | null = null;
   pane: Pane | null = null;
   range: Range;
   classList: string[];
 
-  constructor({ range, classList = [] }: AnnotationOptions) {
+  constructor({ range, classList = [] }: MarkOptions) {
     this.uuid = generateUUID();
     this.range = range;
     this.classList = classList;
@@ -58,4 +58,4 @@ abstract class Annotation {
   }
 }
 
-export default Annotation;
+export default Mark;

@@ -1,10 +1,10 @@
-import Annotation from './annotation';
-import type { AnnotationOptions } from './annotation';
+import Mark from './mark';
+import type { MarkOptions } from './mark';
 
 const DEFAULT_FILL_COLOR = '#FED900';
 
-export default class Underline extends Annotation {
-  constructor(options: AnnotationOptions) {
+export default class Underline extends Mark {
+  constructor(options: MarkOptions) {
     super(options);
   }
 

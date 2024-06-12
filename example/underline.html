@@ -21,8 +21,8 @@
       margin: 2em auto;
     }
 
-    .highlight {
-      fill: #29B8DB80;
+    .underline {
+      stroke: #29B8DB80;
     }
   </style>
 </head>
@@ -52,14 +52,13 @@
     </p>
   </article>
 </body>
-<script src="../dist/index.umd.js"></script>
+<script src="../dist/markstage.umd.js"></script>
 <script>
-  const { Stage, Highlight, Underline } = annotate;
+  const { MarkStage, Underline } = markstage;
 
-  const stage = new Stage(document.querySelector('article'));
+  const stage = new MarkStage(document.querySelector('article'));
 
   document.addEventListener("mouseup", checkForSelection, false);
-  // window.addEventListener("resize", redrawMarks, false);
 
   var el = document.querySelector("article");
   var selecting = false;
@@ -68,12 +67,9 @@
     var selection = window.getSelection();
 
     if (!selection.isCollapsed) {
-      // Set global state to reflect the fact we're making a selection.
-      // Used to stop click events from deleting older highlights when
-      // the click event is the result of a selection.
       selecting = true;
 
-      makeHighlight(selection.getRangeAt(0));
+      makeUnderline(selection.getRangeAt(0));
 
       // Clear the selection
       selection.removeAllRanges();
@@ -85,28 +81,23 @@
     }
   }
 
-  function makeHighlight(range) {
+  function makeUnderline(range) {
     console.log(range);
     var h = stage.add(new Underline({
       range,
-      classList: ['highlight']
+      classList: ['underline']
     }));
   }
-
 
   stage.event.on('click', function (e) {
     console.log('click', e, e.target.getAttribute('data-uuid'));
 
     const uuid = e.target.getAttribute('data-uuid');
 
-    // console.log("highlight clicked");
     if (!selecting) {
       stage.remove(uuid);
     }
   })
-  // function redrawMarks() {
-  // 	pane.render();
-  // }
 </script>
 
 </html>

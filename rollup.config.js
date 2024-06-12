@@ -1,33 +1,35 @@
-const resolve = require('@rollup/plugin-node-resolve');
-const typescript = require('@rollup/plugin-typescript');
-const commonjs = require('@rollup/plugin-commonjs');
-const { terser } = require('rollup-plugin-terser');
+import resolve from '@rollup/plugin-node-resolve';
+import typescript from '@rollup/plugin-typescript';
+import commonjs from '@rollup/plugin-commonjs';
+import terser from '@rollup/plugin-terser';
 
-module.exports = [
-  {
-    input: './src/index.ts',
-    output: [
-      {
-        dir: 'dist',
-        format: 'cjs',
-        entryFileNames: '[name].cjs.js',
-        sourcemap: false, // 是否输出sourcemap
-      },
-      {
-        dir: 'dist',
-        format: 'esm',
-        entryFileNames: '[name].esm.js',
-        sourcemap: false, // 是否输出sourcemap
-      },
-      {
-        dir: 'dist',
-        format: 'umd',
-        entryFileNames: '[name].umd.js',
-        name: 'annotate', // umd模块名称，相当于一个命名空间，会自动挂载到window下面
-        sourcemap: false,
-        plugins: [terser()],
-      },
-    ],
-    plugins: [resolve(), commonjs(), typescript({ module: 'ESNext' })],
-  },
-];
+const ENTRY_FILE_NAME = 'markstage';
+
+export default {
+  input: './src/index.ts',
+  output: [
+    {
+      dir: 'dist',
+      format: 'cjs',
+      entryFileNames: ENTRY_FILE_NAME + '.cjs.js',
+      sourcemap: false, // 是否输出sourcemap
+      plugins: [terser()],
+    },
+    {
+      dir: 'dist',
+      format: 'esm',
+      entryFileNames: ENTRY_FILE_NAME + '.esm.js',
+      sourcemap: false,
+      plugins: [terser()],
+    },
+    {
+      dir: 'dist',
+      format: 'umd',
+      entryFileNames: ENTRY_FILE_NAME + '.umd.js',
+      name: 'markstage', // umd模块名称
+      sourcemap: false,
+      plugins: [terser()],
+    },
+  ],
+  plugins: [resolve(), commonjs(), typescript({ module: 'ESNext' })],
+};

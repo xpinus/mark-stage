@@ -1,5 +1,5 @@
 {
-  "name": "annotate",
+  "name": "mark-stage",
   "version": "0.1.0",
   "description": "js library for add annotations(highlight,underline,etc.) on web page",
   "type": "module",
@@ -24,6 +24,7 @@
   "keywords": [
     "annotation",
     "mark",
+    "marks-pane",
     "highlight",
     "underline"
   ],
@@ -33,6 +34,7 @@
     "@commitlint/cli": "^19.3.0",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/node": "^20.12.11",
     "commitizen": "^4.3.0",
@@ -44,8 +46,8 @@
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
+    "rimraf": "^5.0.7",
     "rollup": "^4.18.0",
-    "rollup-plugin-terser": "^7.0.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.12.0"
   },
@@ -62,5 +64,6 @@
     "cz-customizable": {
       "config": ".cz-config.cjs"
     }
-  }
+  },
+  "packageManager": "pnpm@9.3.0+sha512.ee7b93e0c2bd11409c6424f92b866f31d3ea1bef5fbe47d3c7500cdc3c9668833d2e55681ad66df5b640c61fa9dc25d546efa54d76d7f8bf54b13614ac293631"
 }

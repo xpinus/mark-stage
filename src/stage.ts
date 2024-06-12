@@ -1,8 +1,8 @@
-import Pane from './annotations/pane';
+import Pane from './marks/pane';
 import { coords, setCoords } from './util/coordinate';
 import ProxyMouseEvent from './util/event';
 
-import type Annotation from './annotations/annotation';
+import type Annotation from './marks/mark';
 
 class Stage {
   pane: Pane;

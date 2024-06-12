@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Annotate</title>
+  <style>
+    body {
+      font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      letter-spacing: 0.01rem;
+      font-size: 22px;
+      line-height: 1.5;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header,
+    article {
+      width: 80%;
+      margin: 2em auto;
+    }
+
+    .highlight {
+      fill: #29B8DB80;
+    }
+  </style>
+</head>
+
+<body>
+  <article>
+    <p>
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+      eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+      voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+      clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+      amet.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+      eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+      voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+      clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+      amet.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+      eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+      voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+      clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+      amet.
+    </p>
+  </article>
+</body>
+<script src="../dist/markstage.umd.js"></script>
+<script>
+  const { MarkStage, Highlight } = markstage;
+
+  const stage = new MarkStage(document.querySelector('article'));
+
+  document.addEventListener("mouseup", checkForSelection, false);
+  // window.addEventListener("resize", redrawMarks, false);
+
+  var el = document.querySelector("article");
+  var selecting = false;
+
+  function checkForSelection() {
+    var selection = window.getSelection();
+
+    if (!selection.isCollapsed) {
+      // Set global state to reflect the fact we're making a selection.
+      // Used to stop click events from deleting older highlights when
+      // the click event is the result of a selection.
+      selecting = true;
+
+      makeHighlight(selection.getRangeAt(0));
+
+      // Clear the selection
+      selection.removeAllRanges();
+
+      // Reset the selecting state in the next tick.
+      setTimeout(function () {
+        selecting = false;
+      }, 0);
+    }
+  }
+
+  function makeHighlight(range) {
+    console.log(range);
+    var h = stage.add(new Highlight({
+      range,
+      classList: ['highlight']
+    }));
+  }
+
+
+  stage.event.on('click', function (e) {
+    console.log('click', e, e.target.getAttribute('data-uuid'));
+
+    const uuid = e.target.getAttribute('data-uuid');
+
+    // console.log("highlight clicked");
+    if (!selecting) {
+      stage.remove(uuid);
+    }
+  })
+  // function redrawMarks() {
+  // 	pane.render();
+  // }
+</script>
+
+</html>
