@@ -1,4 +1,4 @@
-# mark.stage
+# mark-stage
 
 > 基于svg实现的网页元素上添加标记（如高亮、下划线等）
 
