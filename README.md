@@ -1,4 +1,4 @@
-# mark-stage
+# [mark-stage](https://www.npmjs.com/package/mark-stage)
 
 > 基于svg实现的网页元素上添加标记（如高亮、下划线等）
 
@@ -70,3 +70,7 @@ option     | description   | default
 :--------: | :--------:    | :--------:
 range      | 标记的元素范围[Range](https://developer.mozilla.org/en-US/docs/Web/API/Range)  |  -
 classList  | 自定义类名数组  |  []
+
+## Salute
+
+> [marks-pane](https://github.com/fchasen/marks)
