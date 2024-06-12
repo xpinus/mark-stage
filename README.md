@@ -4,7 +4,7 @@
 
 > A js library for add svg marks (highlight, underline, etc.) on web page 
 
-![高亮示例](doc/images/highlight.gif)
+![高亮示例](https://github.com/IvonSnow/mark-stage/raw/master/doc/images/highlight.gif)
 
 ## Install
 

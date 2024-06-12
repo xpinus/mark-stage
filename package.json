@@ -2,6 +2,10 @@
   "name": "mark-stage",
   "version": "0.1.0",
   "description": "js library for add annotations(highlight,underline,etc.) on web page",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xpinus/mark-stage.git"
+  },
   "type": "module",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -28,7 +32,7 @@
     "highlight",
     "underline"
   ],
-  "author": "xueyunfeng",
+  "author": "xpinus",
   "license": "MIT",
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
