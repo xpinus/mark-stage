@@ -2,6 +2,7 @@ import { generateUUID } from '../util/uuid';
 import type Pane from './pane';
 
 export type MarkOptions = {
+  uuid?: string;
   range: Range;
   classList: string[];
 };
@@ -13,8 +14,8 @@ abstract class Mark {
   range: Range;
   classList: string[];
 
-  constructor({ range, classList = [] }: MarkOptions) {
-    this.uuid = generateUUID();
+  constructor({ uuid, range, classList = [] }: MarkOptions) {
+    this.uuid = uuid || generateUUID();
     this.range = range;
     this.classList = classList;
   }

@@ -11,5 +11,6 @@ declare class Stage {
   render(): void;
   add(annot: Annotation): Annotation;
   remove(uuid: string): void;
+  clear(): void;
 }
 export default Stage;

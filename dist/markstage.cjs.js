@@ -82,15 +82,17 @@ class s {
   }
 }
 class n {
-  constructor({ range: t, classList: e = [] }) {
+  constructor({ uuid: t, range: e, classList: s = [] }) {
     (this.$group = null),
       (this.pane = null),
-      (this.uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (t) {
-        const e = (16 * Math.random()) | 0;
-        return ('x' == t ? e : (3 & e) | 8).toString(16);
-      })),
-      (this.range = t),
-      (this.classList = e);
+      (this.uuid =
+        t ||
+        'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (t) {
+          const e = (16 * Math.random()) | 0;
+          return ('x' == t ? e : (3 & e) | 8).toString(16);
+        })),
+      (this.range = e),
+      (this.classList = s);
   }
   bind(t) {
     this.pane = t;
@@ -173,6 +175,11 @@ class n {
       if (!this.annotations.has(t)) return;
       const e = this.annotations.get(t).unbind();
       e && this.pane.$pane.removeChild(e), this.annotations.delete(t);
+    }
+    clear() {
+      this.annotations.forEach((t) => {
+        this.remove(t.uuid);
+      });
     }
   }),
   (exports.Underline = class extends n {

@@ -1,5 +1,6 @@
 import type Pane from './pane';
 export type MarkOptions = {
+  uuid?: string;
   range: Range;
   classList: string[];
 };
@@ -9,7 +10,7 @@ declare abstract class Mark {
   pane: Pane | null;
   range: Range;
   classList: string[];
-  constructor({ range, classList }: MarkOptions);
+  constructor({ uuid, range, classList }: MarkOptions);
   abstract render(): void;
   bind(pane: Pane): void;
   unbind(): SVGElement | null;

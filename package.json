@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "clean": "rimraf dist",
-    "build": "rollup -c",
+    "build": "rimraf dist & rollup -c",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier . --write",

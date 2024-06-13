@@ -53,6 +53,12 @@ class Stage {
     }
     this.annotations.delete(uuid);
   }
+
+  clear() {
+    this.annotations.forEach((annot) => {
+      this.remove(annot.uuid);
+    });
+  }
 }
 
 export default Stage;
