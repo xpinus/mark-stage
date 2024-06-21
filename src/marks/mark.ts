@@ -20,6 +20,7 @@ abstract class Mark {
     this.classList = classList;
   }
 
+  // 抽象的渲染方法
   abstract render(): void;
 
   bind(pane: Pane) {
@@ -50,7 +51,7 @@ abstract class Mark {
   }
 
   // Empty element
-  empty() {
+  _empty() {
     if (!this.$group) return;
 
     while (this.$group.firstChild) {

@@ -11,7 +11,7 @@ export default class Underline extends Mark {
   render() {
     if (!this.$group || !this.pane) return;
 
-    this.empty();
+    this._empty();
 
     const fragment = this.$group.ownerDocument.createDocumentFragment();
     const filtered = this.filteredRanges();
@@ -35,7 +35,7 @@ export default class Underline extends Mark {
       line.setAttribute('y2', r.top - offset.top + r.height - 1 + '');
 
       line.setAttribute('stroke-width', '1');
-      line.setAttribute('stroke', DEFAULT_FILL_COLOR);
+      line.setAttribute('stroke', `var(--mark-underline-color, ${DEFAULT_FILL_COLOR})`);
       line.setAttribute('stroke-linecap', 'square');
 
       try {

@@ -1,7 +1,7 @@
 import Mark from './mark';
 import type { MarkOptions } from './mark';
 
-const DEFAULT_FILL_COLOR = 'rgba(0,0,0,.3)';
+const DEFAULT_FILL_COLOR = '#DCCD7980';
 
 export default class Highlight extends Mark {
   constructor(options: MarkOptions) {
@@ -11,7 +11,7 @@ export default class Highlight extends Mark {
   render() {
     if (!this.$group || !this.pane) return;
 
-    this.empty();
+    this._empty();
 
     const fragment = this.$group.ownerDocument.createDocumentFragment();
     const filtered = this.filteredRanges();
@@ -24,7 +24,7 @@ export default class Highlight extends Mark {
       el.setAttribute('y', r.top - offset.top + '');
       el.setAttribute('height', r.height);
       el.setAttribute('width', r.width);
-      el.setAttribute('fill', DEFAULT_FILL_COLOR);
+      el.setAttribute('fill', `var(--mark-highlight-color, ${DEFAULT_FILL_COLOR})`);
       try {
         el.classList.add(...this.classList);
       } catch (e) {

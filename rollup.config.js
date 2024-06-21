@@ -2,34 +2,32 @@ import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import terser from '@rollup/plugin-terser';
+import strip from '@rollup/plugin-strip';
 
+const OUPUT_DIR = 'dist';
 const ENTRY_FILE_NAME = 'markstage';
+const OUTPUT_FORAMT = ['cjs', 'esm', 'umd'];
+
+function getOutputConfig() {
+  return OUTPUT_FORAMT.map((format) => {
+    return {
+      dir: OUPUT_DIR,
+      format,
+      entryFileNames: ENTRY_FILE_NAME + '.' + format + '.js',
+      name: 'markstage', // umd模块名称
+      sourcemap: true, // 是否输出sourcemap
+    };
+  });
+}
 
 export default {
   input: './src/index.ts',
-  output: [
-    {
-      dir: 'dist',
-      format: 'cjs',
-      entryFileNames: ENTRY_FILE_NAME + '.cjs.js',
-      sourcemap: false, // 是否输出sourcemap
-      plugins: [terser()],
-    },
-    {
-      dir: 'dist',
-      format: 'esm',
-      entryFileNames: ENTRY_FILE_NAME + '.esm.js',
-      sourcemap: false,
-      plugins: [terser()],
-    },
-    {
-      dir: 'dist',
-      format: 'umd',
-      entryFileNames: ENTRY_FILE_NAME + '.umd.js',
-      name: 'markstage', // umd模块名称
-      sourcemap: false,
-      plugins: [terser()],
-    },
+  output: getOutputConfig(),
+  plugins: [
+    resolve(),
+    commonjs(),
+    strip(), // 删除console
+    typescript({ module: 'ESNext' }),
+    terser(),
   ],
-  plugins: [resolve(), commonjs(), typescript({ module: 'ESNext' })],
 };

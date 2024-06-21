@@ -27,6 +27,7 @@ export default class ProxyMouseEvent {
         this.source = stage.target;
       }
     }
+    console.log(this.source);
 
     for (const ev in PROXY_EVENTS) {
       console.log(ev);
@@ -49,6 +50,8 @@ export default class ProxyMouseEvent {
       if (!this.contains(annot, x, y)) {
         continue;
       }
+
+      console.log('dispatch', x, y, annot.$group!.getBoundingClientRect());
 
       // The event targets this mark, so dispatch a cloned event:
       annot.$group!.dispatchEvent(this.clone(e));
