@@ -26,7 +26,9 @@ export default {
   plugins: [
     resolve(),
     commonjs(),
-    strip(), // 删除console
+    strip({
+      include: ['src/**/*.ts'],
+    }), // 删除console
     typescript({ module: 'ESNext' }),
     terser(),
   ],
