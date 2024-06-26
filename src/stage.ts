@@ -59,6 +59,11 @@ class Stage {
       this.remove(annot.uuid);
     });
   }
+
+  destroy() {
+    this.clear();
+    this.pane.$pane?.remove();
+  }
 }
 
 export default Stage;
