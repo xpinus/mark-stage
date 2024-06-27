@@ -1,5 +1,5 @@
 import { generateUUID } from '../util/uuid';
-import type Pane from './pane';
+import type Pane from '../pane';
 
 export type MarkOptions = {
   uuid?: string;

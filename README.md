@@ -46,6 +46,13 @@ stage.event.on('click', function (e) {
 })
 ```
 
+> ⚠ 注意：mark是通过在container下插入一个svg并进行绘制，svg通过position: absolute将自己覆盖在target之上产生重叠的效果
+```js
+const containerPosition = window.getComputedStyle(container, null).position;  // 检测container的style的position设置
+if (containerPosition === 'static' || !containerPosition) {
+  container.style.position = 'relative';  // 如果container未设置适当的position，则会默认添加relative
+}
+```
 
 ## Options
 

@@ -1,5 +1,5 @@
 import type Stage from '../stage';
-import type Annotation from '../marks/mark';
+import type Mark from '../marks/mark';
 
 export enum PROXY_EVENTS {
   click = 'click',
@@ -37,7 +37,7 @@ export default class ProxyMouseEvent {
   }
 
   dispatch(e: PointerEvent) {
-    for (const annot of this.stage.annotations.values()) {
+    for (const mark of this.stage.marks.values()) {
       let x, y;
       if (e instanceof TouchEvent) {
         x = e.touches[0].clientX;
@@ -47,24 +47,24 @@ export default class ProxyMouseEvent {
         y = e.clientY;
       }
 
-      if (!this.contains(annot, x, y)) {
+      if (!this.contains(mark, x, y)) {
         continue;
       }
 
-      console.log('dispatch', x, y, annot.$group!.getBoundingClientRect());
+      console.log('dispatch', x, y, mark.$group!.getBoundingClientRect());
 
       // The event targets this mark, so dispatch a cloned event:
-      annot.$group!.dispatchEvent(this.clone(e));
+      mark.$group!.dispatchEvent(this.clone(e));
       // We only dispatch the cloned event to the first matching mark.
       break;
     }
   }
 
   /**
-   * @description Check if the Annotation contains the point denoted by the passed coordinates
+   * @description Check if the Mark contains the point denoted by the passed coordinates
    */
-  contains(annot: Annotation, x: number, y: number) {
-    const rect = annot.$group!.getBoundingClientRect();
+  contains(mark: Mark, x: number, y: number) {
+    const rect = mark.$group!.getBoundingClientRect();
 
     const top = rect.top;
     const left = rect.left;

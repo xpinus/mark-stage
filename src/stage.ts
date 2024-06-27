@@ -1,12 +1,12 @@
-import Pane from './marks/pane';
+import Pane from './pane';
 import { coords, setCoords } from './util/coordinate';
 import ProxyMouseEvent from './util/event';
 
-import type Annotation from './marks/mark';
+import type Mark from './marks/mark';
 
 class Stage {
   pane: Pane;
-  annotations: Map<string, Annotation> = new Map();
+  marks: Map<string, Mark> = new Map();
   target: HTMLElement;
   container: HTMLElement;
   event: ProxyMouseEvent;
@@ -15,12 +15,10 @@ class Stage {
     this.target = target;
     this.container = container;
 
-    // Set up mouse event proxying between the target element and the marks
-    // events.proxyMouse(this.target, this.marks);
-
     this.pane = new Pane();
     this.pane.mount(this.container);
 
+    // Set up mouse event proxying between the target element and the marks
     this.event = new ProxyMouseEvent(this);
 
     this.render();
@@ -29,34 +27,34 @@ class Stage {
   render() {
     setCoords(this.pane.$pane as unknown as HTMLElement, coords(this.target, this.container));
 
-    for (const annot of this.annotations.values()) {
-      annot.render();
+    for (const mark of this.marks.values()) {
+      mark.render();
     }
   }
 
-  add(annot: Annotation) {
-    this.annotations.set(annot.uuid, annot);
-    annot.bind(this.pane);
-    annot.render();
+  add(mark: Mark) {
+    this.marks.set(mark.uuid, mark);
+    mark.bind(this.pane);
+    mark.render();
 
-    return annot;
+    return mark;
   }
 
   remove(uuid: string) {
-    if (!this.annotations.has(uuid)) return;
+    if (!this.marks.has(uuid)) return;
 
-    const annot = this.annotations.get(uuid)!;
+    const mark = this.marks.get(uuid)!;
 
-    const el = annot.unbind();
+    const el = mark.unbind();
     if (el) {
       this.pane.$pane.removeChild(el);
     }
-    this.annotations.delete(uuid);
+    this.marks.delete(uuid);
   }
 
   clear() {
-    this.annotations.forEach((annot) => {
-      this.remove(annot.uuid);
+    this.marks.forEach((mark) => {
+      this.remove(mark.uuid);
     });
   }
 
