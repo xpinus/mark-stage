@@ -44,6 +44,10 @@ export default class Underline extends Mark {
         console.error(e);
       }
 
+      if (this.style) {
+        line.setAttribute('style', this.style);
+      }
+
       fragment.appendChild(line);
     }
 

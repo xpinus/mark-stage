@@ -5,6 +5,7 @@ export type MarkOptions = {
   uuid?: string;
   range: Range;
   classList: string[];
+  style?: string;
 };
 
 abstract class Mark {
@@ -13,11 +14,13 @@ abstract class Mark {
   pane: Pane | null = null;
   range: Range;
   classList: string[];
+  style?: string;
 
-  constructor({ uuid, range, classList = [] }: MarkOptions) {
+  constructor({ uuid, range, classList = [], style }: MarkOptions) {
     this.uuid = uuid || generateUUID();
     this.range = range;
     this.classList = classList;
+    this.style = style;
   }
 
   // 抽象的渲染方法

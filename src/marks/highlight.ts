@@ -30,6 +30,9 @@ export default class Highlight extends Mark {
       } catch (e) {
         console.error(e);
       }
+      if (this.style) {
+        el.setAttribute('style', this.style);
+      }
       fragment.appendChild(el);
     }
 
