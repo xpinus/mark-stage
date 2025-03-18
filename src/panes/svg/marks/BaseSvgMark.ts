@@ -1,5 +1,6 @@
-import { generateUUID } from '../util/uuid';
-import type Pane from '../pane';
+import { generateUUID } from '@/util/uuid';
+import type SvgPane from '../SvgPane';
+import type { Mark } from '@/Mark';
 
 export type MarkOptions = {
   uuid?: string;
@@ -8,10 +9,10 @@ export type MarkOptions = {
   style?: string;
 };
 
-abstract class Mark {
+export default abstract class BaseSvgMark implements Mark {
   uuid: string;
   $group: SVGElement | null = null;
-  pane: Pane | null = null;
+  pane: SvgPane | null = null;
   range: Range;
   classList: string[];
   style?: string;
@@ -23,10 +24,9 @@ abstract class Mark {
     this.style = style;
   }
 
-  // 抽象的渲染方法
-  abstract render(): void;
+  abstract draw(): void;
 
-  bind(pane: Pane) {
+  bind(pane: SvgPane) {
     this.pane = pane;
 
     const g = this.pane.group();
@@ -36,9 +36,9 @@ abstract class Mark {
   }
 
   unbind() {
-    const el = this.$group;
+    if (!this.$group) return;
+    this.pane?.$pane.removeChild(this.$group);
     this.$group = null;
-    return el;
   }
 
   filteredRanges() {
@@ -61,6 +61,12 @@ abstract class Mark {
       this.$group.removeChild(this.$group.firstChild);
     }
   }
-}
 
-export default Mark;
+  dispatch(event: PointerEvent) {
+    this.$group!.dispatchEvent(event);
+  }
+
+  getBoundingClientRect() {
+    return this.$group?.getBoundingClientRect();
+  }
+}

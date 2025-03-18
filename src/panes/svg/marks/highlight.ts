@@ -1,14 +1,14 @@
-import Mark from './mark';
-import type { MarkOptions } from './mark';
+import BaseSvgMark from './BaseSvgMark';
+import type { MarkOptions } from './BaseSvgMark';
 
 const DEFAULT_FILL_COLOR = '#DCCD7980';
 
-export default class Highlight extends Mark {
+export default class Highlight extends BaseSvgMark {
   constructor(options: MarkOptions) {
     super(options);
   }
 
-  render() {
+  draw() {
     if (!this.$group || !this.pane) return;
 
     this._empty();

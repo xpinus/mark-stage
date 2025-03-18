@@ -5,6 +5,12 @@ type Coordinate = {
   height: number;
 };
 
+/**
+ * 获取el相对于container的偏移，以及自身的宽高
+ * @param el
+ * @param container
+ * @returns
+ */
 export function coords(el: HTMLElement, container: HTMLElement): Coordinate {
   const offset = container.getBoundingClientRect();
   const rect = el.getBoundingClientRect();
@@ -17,6 +23,11 @@ export function coords(el: HTMLElement, container: HTMLElement): Coordinate {
   };
 }
 
+/**
+ * 设置el的偏移和宽高
+ * @param el
+ * @param coords
+ */
 export function setCoords(el: HTMLElement, coords: Coordinate) {
   console.log(el);
 

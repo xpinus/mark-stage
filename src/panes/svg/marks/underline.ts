@@ -1,14 +1,14 @@
-import Mark from './mark';
-import type { MarkOptions } from './mark';
+import BaseSvgMark from './BaseSvgMark';
+import type { MarkOptions } from './BaseSvgMark';
 
 const DEFAULT_FILL_COLOR = '#FED900';
 
-export default class Underline extends Mark {
+export default class Underline extends BaseSvgMark {
   constructor(options: MarkOptions) {
     super(options);
   }
 
-  render() {
+  draw() {
     if (!this.$group || !this.pane) return;
 
     this._empty();

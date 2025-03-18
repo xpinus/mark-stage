@@ -25,5 +25,5 @@
 
     /* Completeness */
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/Stage.js"]
 }

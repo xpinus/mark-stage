@@ -1,21 +1,34 @@
-import Pane from './pane';
+import Pane from './Pane';
+import { Mark } from './Mark';
 import { coords, setCoords } from './util/coordinate';
 import ProxyMouseEvent from './util/event';
 
-import type Mark from './marks/mark';
+import SvgPane from './panes/svg/SvgPane';
 
-class Stage {
+const supportedPanes = ['svg'] as const;
+
+type PnaeType = (typeof supportedPanes)[number];
+
+/**
+ * @param container 插入画布的容器，默认值 document.body
+ * @param pane 画布类型
+ */
+type StageOption = {
+  container?: HTMLElement;
+  pane?: PnaeType;
+};
+
+export class Stage {
   pane: Pane;
-  marks: Map<string, Mark> = new Map();
   target: HTMLElement;
   container: HTMLElement;
   event: ProxyMouseEvent;
 
-  constructor(target: HTMLElement, container: HTMLElement = document.body) {
+  constructor(target: HTMLElement, option?: StageOption) {
     this.target = target;
-    this.container = container;
+    this.container = option?.container || document.body;
+    this.pane = this.createPane(option?.pane || 'svg');
 
-    this.pane = new Pane();
     this.pane.mount(this.container);
 
     // Set up mouse event proxying between the target element and the marks
@@ -24,44 +37,36 @@ class Stage {
     this.render();
   }
 
+  createPane(type: PnaeType): Pane {
+    switch (type) {
+      case 'svg':
+        return new SvgPane();
+      default:
+        // eslint-disable-next-line no-case-declarations
+        const unSupport: never = type;
+        throw new Error(`unknown pane: ${unSupport}, pane must be ${supportedPanes.join(' | ')}`);
+    }
+  }
+
   render() {
     setCoords(this.pane.$pane as unknown as HTMLElement, coords(this.target, this.container));
 
-    for (const mark of this.marks.values()) {
-      mark.render();
-    }
+    this.pane.render();
   }
 
   add(mark: Mark) {
-    this.marks.set(mark.uuid, mark);
-    mark.bind(this.pane);
-    mark.render();
-
-    return mark;
+    this.pane.add(mark);
   }
 
   remove(uuid: string) {
-    if (!this.marks.has(uuid)) return;
-
-    const mark = this.marks.get(uuid)!;
-
-    const el = mark.unbind();
-    if (el) {
-      this.pane.$pane.removeChild(el);
-    }
-    this.marks.delete(uuid);
+    this.pane.remove(uuid);
   }
 
   clear() {
-    this.marks.forEach((mark) => {
-      this.remove(mark.uuid);
-    });
+    this.pane.clear();
   }
 
   destroy() {
-    this.clear();
-    this.pane.$pane?.remove();
+    this.pane.destroy();
   }
 }
-
-export default Stage;

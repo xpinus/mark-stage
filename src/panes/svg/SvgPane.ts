@@ -1,10 +1,12 @@
-/**
- * @description A pane with all the annotations rendered on it
- */
-export default class Pane {
+import BasePane from '@/Pane';
+import type { PROXY_EVENTS } from '@/util/event.ts';
+
+export default class SvgPane extends BasePane {
   $pane: SVGSVGElement;
 
   constructor() {
+    super();
+
     const svg = this.createElement('svg') as SVGSVGElement;
     // Match the coordinates of the target element
     svg.style.position = 'absolute';
@@ -13,13 +15,9 @@ export default class Pane {
     this.$pane = svg;
   }
 
-  mount(container: HTMLElement) {
-    const containerPosition = window.getComputedStyle(container, null).position;
-    if (containerPosition === 'static' || !containerPosition) {
-      container.style.position = 'relative';
-    }
-
-    container.appendChild(this.$pane);
+  destroy(): void {
+    this.clear();
+    this.$pane.remove();
   }
 
   group() {
@@ -29,5 +27,13 @@ export default class Pane {
 
   createElement(name: string) {
     return document.createElementNS('http://www.w3.org/2000/svg', name);
+  }
+
+  addEventListener(
+    eventName: PROXY_EVENTS,
+    callback: (e: MouseEvent) => void,
+    options: boolean | AddEventListenerOptions = false,
+  ) {
+    this.$pane.addEventListener(eventName, (e) => callback(e as MouseEvent), options);
   }
 }

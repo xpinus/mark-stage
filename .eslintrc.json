@@ -28,6 +28,13 @@
     "@typescript-eslint/no-non-null-assertion": "off", // 不允许使用后缀运算符的非空断言(!)
     "@typescript-eslint/no-unused-vars": "off", //
 
-    "prettier/prettier": "error"
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+
+    "end-of-line": "off"
   }
 }

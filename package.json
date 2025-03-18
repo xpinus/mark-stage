@@ -1,7 +1,7 @@
 {
   "name": "mark-stage",
   "version": "0.2.0",
-  "description": "js library for add annotations(highlight,underline,etc.) on web page",
+  "description": "js library for add marks(highlight,underline,etc.) on web page",
   "repository": {
     "type": "git",
     "url": "https://github.com/xpinus/mark-stage.git"
@@ -26,19 +26,19 @@
     "commit": "git add . &&  cz"
   },
   "keywords": [
-    "annotation",
     "mark",
     "marks-pane",
     "highlight",
-    "underline"
+    "underline",
+    "annotation"
   ],
   "author": "xpinus",
   "license": "MIT",
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
+    "@rollup/plugin-alias": "^5.1.1",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-strip": "^3.0.4",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/node": "^20.12.11",

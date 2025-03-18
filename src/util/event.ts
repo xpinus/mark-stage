@@ -1,5 +1,5 @@
-import type Stage from '../stage';
-import type Mark from '../marks/mark';
+import type { Stage } from '@/Stage';
+import type { Mark } from '@/Mark';
 
 export enum PROXY_EVENTS {
   click = 'click',
@@ -37,7 +37,7 @@ export default class ProxyMouseEvent {
   }
 
   dispatch(e: PointerEvent) {
-    for (const mark of this.stage.marks.values()) {
+    for (const mark of this.stage.pane.marks.values()) {
       let x, y;
       if (e instanceof TouchEvent) {
         x = e.touches[0].clientX;
@@ -51,10 +51,8 @@ export default class ProxyMouseEvent {
         continue;
       }
 
-      console.log('dispatch', x, y, mark.$group!.getBoundingClientRect());
-
       // The event targets this mark, so dispatch a cloned event:
-      mark.$group!.dispatchEvent(this.clone(e));
+      mark.dispatch(this.clone(e));
       // We only dispatch the cloned event to the first matching mark.
       break;
     }
@@ -64,7 +62,7 @@ export default class ProxyMouseEvent {
    * @description Check if the Mark contains the point denoted by the passed coordinates
    */
   contains(mark: Mark, x: number, y: number) {
-    const rect = mark.$group!.getBoundingClientRect();
+    const rect = mark.getBoundingClientRect();
 
     const top = rect.top;
     const left = rect.left;
@@ -105,6 +103,6 @@ export default class ProxyMouseEvent {
   }
 
   on(eventName: PROXY_EVENTS, callback: (e: MouseEvent) => void, options: boolean | AddEventListenerOptions = false) {
-    this.stage.pane.$pane.addEventListener(eventName, (e) => callback(e as MouseEvent), options);
+    this.stage.pane.addEventListener(eventName, (e) => callback(e as MouseEvent), options);
   }
 }
