@@ -1,6 +1,6 @@
 {
   "name": "mark-stage",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "js library for add marks(highlight,underline,etc.) on web page",
   "repository": {
     "type": "git",

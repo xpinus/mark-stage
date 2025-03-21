@@ -26,7 +26,7 @@ export class Stage {
 
   constructor(target: HTMLElement, option?: StageOption) {
     this.target = target;
-    this.container = option?.container || document.body;
+    this.container = option?.container || target.parentElement || document.body;
     this.pane = this.createPane(option?.pane || 'svg');
 
     this.pane.mount(this.container);

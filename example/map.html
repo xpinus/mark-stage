@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mark-Stage</title>
+  <style>
+    body {
+      font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      letter-spacing: 0.01rem;
+      font-size: 22px;
+      line-height: 1.5;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header,
+    article {
+      width: 80%;
+      margin: 2em auto;
+    }
+
+    .highlight {
+      fill: #29B8DB80;
+    }
+
+    .highlight-left {
+      fill: #FF000080;
+    }
+
+    .cols {
+      display: flex;
+      width: 1600px;
+      gap: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h3>在右侧的标记将会映射到左侧</h3>
+  <div class="cols">
+    <div id="col1">
+      <article>
+        <p>
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+          eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+          voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+          clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+          amet.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+          eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+          voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+          clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+          amet.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+          eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+          voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+          clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+          amet.
+        </p>
+      </article>
+    </div>
+
+    <div id="col2">
+      <article>
+        <p>
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+          eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+          voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+          clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+          amet.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+          eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+          voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+          clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+          amet.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+          eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+          voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+          clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+          amet.
+        </p>
+      </article>
+    </div>
+  </div>
+</body>
+<script src="../dist/markstage.umd.js"></script>
+<script>
+  const { MarkStage, Highlight } = markstage;
+
+  const stage = new MarkStage(document.querySelector('#col2 article'));
+  const stageL = new MarkStage(document.querySelector('#col1 article'));
+
+  document.addEventListener("mouseup", checkForSelection, false);
+
+  var el = document.querySelector("article");
+  var selecting = false;
+
+  function checkForSelection() {
+    var selection = window.getSelection();
+
+    if (!selection.isCollapsed) {
+      // Set global state to reflect the fact we're making a selection.
+      // Used to stop click events from deleting older highlights when
+      // the click event is the result of a selection.
+      selecting = true;
+
+
+      const range = selection.getRangeAt(0);
+
+      const mark = new Highlight({
+        range,
+        classList: ['highlight']
+      });
+
+      var h = stage.add(mark);
+      stageL.add(new Highlight({
+        range: mark.range,
+        classList: ['highlight-left']
+      }));
+
+      // Clear the selection
+      selection.removeAllRanges();
+
+      // Reset the selecting state in the next tick.
+      setTimeout(function () {
+        selecting = false;
+      }, 0);
+    }
+  }
+
+  stage.event.on('click', function (e) {
+    console.log('click', e, e.target.getAttribute('data-uuid'));
+
+    const uuid = e.target.getAttribute('data-uuid');
+
+    // console.log("highlight clicked");
+    if (!selecting) {
+      stage.remove(uuid);
+    }
+  })
+</script>
+
+</html>
